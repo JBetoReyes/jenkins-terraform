@@ -25,8 +25,8 @@ mkdir $EC2_HOME/jenkins_home
 # Jenkins plugins
 touch $EC2_HOME/plugins.txt
 tee -a $EC2_HOME/plugins.txt <<EOF
-docker:latest
-docker-pipeline:latest
+docker-plugin:latest
+docker-workflow:latest
 configuration-as-code:latest
 cloudbees-folder:latest
 antisamy-markup-formatter:latest
@@ -77,6 +77,8 @@ EOF
 chown -R ec2-user $EC2_HOME
 
 cd $EC2_HOME
+echo "current directory"
+pwd | echo 
 
 docker build -t jenkins:wizardless .
 
