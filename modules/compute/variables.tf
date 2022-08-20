@@ -8,7 +8,7 @@ variable "aws_region" {
 
 # Variable where we will pass in the subnet ID
 variable "public_subnet" {
-  description = "The public subnet for the Jenkins server"
+    description = "The public subnet for the Jenkins server"
 }
 
 variable "instance_type" {
@@ -17,4 +17,8 @@ variable "instance_type" {
 
 variable "key_name" {
     description = "Instance Key Name"
+}
+
+variable "bucket_name" {
+    description = "Jenkins bucket name"
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
-echo "Home"
-echo $HOME
+echo "bucket name"
+echo "${bucket_name}"
 
 EC2_HOME=/home/ec2-user
 sudo yum update –y
@@ -11,8 +11,8 @@ systemctl status amazon-ssm-agent
 systemctl start amazon-ssm-agent
 
 yum install docker -y
-usermod -a -G docker ec2-user
 newgrp docker
+usermod -a -G docker ec2-user
 yum install python3-pip -y
 yes | pip3 install docker-compose
 
@@ -20,63 +20,26 @@ yes | pip3 install docker-compose
 systemctl enable docker.service
 systemctl start docker.service
 
-mkdir $EC2_HOME/jenkins_home
+mkdir $EC2_HOME/jenkins_home $EC2_HOME/.ssh
+cd $EC2_HOME
+
+# Configuration as code file for jenkins
+aws s3api get-object --bucket ${bucket_name} --key keys/id_rsa .ssh/id_rsa
+# restrict the access to keys
+chmod 700 $EC2_HOME/.ssh
+cp $EC2_HOME/.ssh/id_rsa $EC2_HOME/jenkins_home/id_rsa
+
+# Configuration as code file for jenkins
+aws s3api get-object --bucket ${bucket_name} --key master/casc.yaml jenkins_home/casc.yaml
 
 # Jenkins plugins
-touch $EC2_HOME/plugins.txt
-tee -a $EC2_HOME/plugins.txt <<EOF
-docker-plugin:latest
-docker-workflow:latest
-configuration-as-code:latest
-cloudbees-folder:latest
-antisamy-markup-formatter:latest
-build-timeout:latest
-credentials-binding:latest
-timestamper:latest
-ws-cleanup:latest
-ant:latest
-gradle:latest
-workflow-aggregator:latest
-github-branch-source:latest
-pipeline-github-lib:latest
-pipeline-stage-view:latest
-git:latest
-ssh-slaves:latest
-matrix-auth:latest
-pam-auth:latest
-ldap:latest
-email-ext:latest
-mailer:latest
-EOF
-
-# Jenkins casc.yaml
-touch $EC2_HOME/jenkins_home/casc.yaml
-tee -a $EC2_HOME/jenkins_home/casc.yaml <<EOF
-jenkins:
-  securityRealm:
-    local:
-      allowsSignup: false
-      users:
-       - id: \${JENKINS_ADMIN_ID}
-         password: \${JENKINS_ADMIN_PASSWORD}
-unclassified:
-  location:
-    url: http://server_ip:8080/
-EOF
+aws s3api get-object --bucket ${bucket_name} --key master/plugins.txt plugins.txt
 
 # Dockerfile
-touch $EC2_HOME/Dockerfile
-tee -a $EC2_HOME/Dockerfile <<EOF
-FROM jenkins/jenkins:latest
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
-ENV CASC_JENKINS_CONFIG /var/jenkins_home/casc.yaml
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-EOF
+aws s3api get-object --bucket ${bucket_name} --key master/Dockerfile Dockerfile
 
 chown -R ec2-user $EC2_HOME
 
-cd $EC2_HOME
 echo "current directory"
 pwd | echo 
 

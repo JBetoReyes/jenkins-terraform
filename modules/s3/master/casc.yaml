@@ -1,0 +1,23 @@
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: ${JENKINS_ADMIN_ID}
+         password: ${JENKINS_ADMIN_PASSWORD}
+unclassified:
+  location:
+    url: http://server_ip:8080/
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        # Another option passing via a file via ${readFile:/path/to/file}
+        - basicSSHUserPrivateKey:
+            scope: GLOBAL
+            id: ssh_provided_via_file
+            username: jenkins
+            description: "SSH with private key file. Private key provided"
+            privateKeySource:
+              directEntry:
+                privateKey: "${readFile:/var/jenkins_home/id_rsa}" # Path to file loaded from Environment Variable
