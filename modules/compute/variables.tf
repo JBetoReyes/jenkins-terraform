@@ -22,3 +22,7 @@ variable "key_name" {
 variable "bucket_name" {
     description = "Jenkins bucket name"
 }
+
+variable "github_token" {
+    description = "token to automate webhook initialization"
+}

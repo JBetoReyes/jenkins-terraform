@@ -22,4 +22,5 @@ module "ec2_instance" {
    aws_region = var.aws_region
    instance_type = var.instance_type
    key_name = var.key_name
+   github_token = var.github_token
 }
