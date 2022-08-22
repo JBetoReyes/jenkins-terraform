@@ -16,6 +16,8 @@ data "template_file" "master_docker_user_data" {
   template = "${file("${path.module}/install_jenkins_master_docker.sh")}"
   vars = {
     bucket_name = var.bucket_name
+    node_one_ip = aws_instance.jenkins_node_one.public_ip
+    node_two_ip = aws_instance.jenkins_node_two.public_ip
   }
 }
 
