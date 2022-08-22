@@ -16,3 +16,5 @@ create-github-key-folder:
 	mkdir $(s3_folder)/github_keys || echo "folder already exists"
 create-github-key: create-github-key-folder
 	$(key_gen_command)/github_keys/id_rsa -y ||  $(key_gen_command)/github_keys/id_rsa
+transform-github-app-key:
+	openssl pkcs8 -topk8 -inform PEM -outform PEM -in ${app_key_name}.pem -out converted-github-app.pem -nocrypt

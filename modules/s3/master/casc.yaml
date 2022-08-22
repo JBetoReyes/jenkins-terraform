@@ -13,8 +13,8 @@ credentials:
                 privateKey: "${readFile:/var/jenkins_home/id_rsa}" # Path to file loaded from Environment Variable
         - string:
             scope: GLOBAL
-            id: "secret-text"
-            secret: "${SECRET_TEXT}"
+            id: "jenkins-github-integration-token"
+            secret: "${GITHUB_TOKEN}"
             description: "Secret Text"
 jenkins:
   numExecutors: 0
@@ -62,3 +62,9 @@ jenkins:
 unclassified:
   location:
     url: http://${JENKINS_IP}:8080/
+  githubpluginconfig:
+    configs:
+      - name: "Jenkins Github Integration"
+        apiUrl: "https://api.github.com"
+        credentialsId: "jenkins-github-integration-token"
+        manageHooks: true

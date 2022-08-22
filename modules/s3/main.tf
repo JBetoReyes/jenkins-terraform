@@ -29,7 +29,7 @@ resource "aws_s3_object" "key_files" {
 }
 
 resource "aws_s3_object" "github_key_files" {
-  for_each = fileset("${path.module}/.ssh", "*")
+  for_each = fileset("${path.module}/github_keys", "*")
   bucket = aws_s3_bucket.my_bucket.id
   key = format("github_keys/%s", each.value)
   source = "${path.module}/github_keys/${each.value}"

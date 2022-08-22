@@ -24,3 +24,4 @@ blueocean:latest
 htmlpublisher:latest
 github:latest
 github-checks:latest
+disable-github-multibranch-status:latest

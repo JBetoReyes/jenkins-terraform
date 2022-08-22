@@ -6,3 +6,4 @@ github_keys
 id_rsa
 id_rsa.pub
 .env
+*.pem
