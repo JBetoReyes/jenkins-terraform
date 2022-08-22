@@ -20,3 +20,7 @@ pam-auth:latest
 ldap:latest
 email-ext:latest
 mailer:latest
+blueocean:latest
+htmlpublisher:latest
+github:latest
+github-checks:latest
