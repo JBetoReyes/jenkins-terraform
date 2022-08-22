@@ -12,18 +12,20 @@ systemctl start amazon-ssm-agent
 
 # Creates the jenkins user
 adduser jenkins --shell /bin/bash
-su jenkins
+su jenkins -s
 mkdir $JENKINS_HOME/jenkins_slave
-mkdir $JENKINS_HOME/.ssh && cd $JENKINS_HOME/.ssh
-ssh-keygen -t rsa -N '' -f $JENKINS_HOME/.ssh/id_rsa
+mkdir $JENKINS_HOME/.ssh
+cd $JENKINS_HOME/.ssh
+# Nodes public key
+aws s3api get-object --bucket ${bucket_name} --key keys/id_rsa.pub id_rsa.pub
 cat id_rsa.pub > $JENKINS_HOME/.ssh/authorized_keys
-chown -R jenkins $JENKINS_HOME/.ssh
-chown -R jenkins $JENKINS_HOME/jenkins_slave
+chown -R jenkins:jenkins $JENKINS_HOME/.ssh
+chown -R jenkins:jenkins $JENKINS_HOME/jenkins_slave
 chmod 600 $JENKINS_HOME/.ssh/authorized_keys
 chmod 700 $JENKINS_HOME/.ssh
 su -
 
-yum install docker -y
+yum install docker git -y
 newgrp docker
 usermod -a -G docker ec2-user
 usermod -a -G docker jenkins
