@@ -11,6 +11,11 @@ credentials:
             privateKeySource:
               directEntry:
                 privateKey: "${readFile:/var/jenkins_home/id_rsa}" # Path to file loaded from Environment Variable
+        - string:
+            scope: GLOBAL
+            id: "secret-text"
+            secret: "${SECRET_TEXT}"
+            description: "Secret Text"
 jenkins:
   numExecutors: 0
   securityRealm:
@@ -21,10 +26,10 @@ jenkins:
          password: ${JENKINS_ADMIN_PASSWORD}
   nodes:
     - permanent:
-        labelString: "docker agent"
+        labelString: "docker agent 1"
         mode: NORMAL
-        name: "docker agent"
-        numExecutors: 2
+        name: "docker agent 1"
+        numExecutors: 1
         remoteFS: "/home/jenkins/jenkins_slave"
         launcher:
           SSHLauncher:
@@ -38,10 +43,10 @@ jenkins:
               manuallyTrustedKeyVerificationStrategy:
                 requireInitialManualTrust: false
     - permanent:
-        labelString: "docker agent"
+        labelString: "docker agent 2"
         mode: NORMAL
-        name: "docker agent"
-        numExecutors: 2
+        name: "docker agent 2"
+        numExecutors: 1
         remoteFS: "/home/jenkins/jenkins_slave"
         launcher:
           SSHLauncher:
