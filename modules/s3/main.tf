@@ -27,3 +27,11 @@ resource "aws_s3_object" "key_files" {
   source = "${path.module}/.ssh/${each.value}"
   etag = filemd5("${path.module}/.ssh/${each.value}")
 }
+
+resource "aws_s3_object" "github_key_files" {
+  for_each = fileset("${path.module}/.ssh", "*")
+  bucket = aws_s3_bucket.my_bucket.id
+  key = format("github_keys/%s", each.value)
+  source = "${path.module}/github_keys/${each.value}"
+  etag = filemd5("${path.module}/github_keys/${each.value}")
+}
