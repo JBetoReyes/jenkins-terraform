@@ -16,6 +16,11 @@ credentials:
             id: "jenkins-github-integration-token"
             secret: "${GITHUB_TOKEN}"
             description: "Secret Text"
+        - usernamePassword:
+            scope: GLOBAL
+            id: docker-hub-integration
+            username: "${DOCKER_HUB_USER}"
+            password: "${DOCKER_HUB_PASSWORD}"
 jenkins:
   numExecutors: 0
   securityRealm:

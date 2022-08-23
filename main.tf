@@ -23,4 +23,6 @@ module "ec2_instance" {
    instance_type = var.instance_type
    key_name = var.key_name
    github_token = var.github_token
+   docker_hub_user = var.docker_hub_user
+   docker_hub_password = var.docker_hub_password
 }

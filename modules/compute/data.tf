@@ -19,6 +19,8 @@ data "template_file" "master_docker_user_data" {
     node_one_ip = aws_instance.jenkins_node_one.public_ip
     node_two_ip = aws_instance.jenkins_node_two.public_ip
     github_token = var.github_token
+    docker_hub_user = var.docker_hub_user
+    docker_hub_password = var.docker_hub_password
   }
 }
 

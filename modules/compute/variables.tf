@@ -26,3 +26,5 @@ variable "bucket_name" {
 variable "github_token" {
     description = "token to automate webhook initialization"
 }
+variable docker_hub_user {}
+variable docker_hub_password {}
