@@ -18,14 +18,14 @@ module "bucket" {
 }
 
 module "ec2_instance" {
-   source = "./modules/compute"
-   security_group = module.security_group.sg_id
-   public_subnet = module.vpc.public_subnet_id
-   bucket_name = module.bucket.bucket_name
-   aws_region = var.aws_region
-   instance_type = var.instance_type
-   key_name = var.key_name
-   github_token = var.github_token
-   docker_hub_user = var.docker_hub_user
-   docker_hub_password = var.docker_hub_password
+  source              = "./modules/compute"
+  security_group      = module.security_group.sg_id
+  public_subnet       = module.vpc.public_subnet_id
+  bucket_name         = module.bucket.bucket_name
+  aws_region          = var.aws_region
+  instance_type       = var.instance_type
+  key_name            = var.key_name
+  github_token        = var.github_token
+  docker_hub_user     = var.docker_hub_user
+  docker_hub_password = var.docker_hub_password
 }
