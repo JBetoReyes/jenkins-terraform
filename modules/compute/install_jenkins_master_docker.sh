@@ -56,7 +56,7 @@ docker run --rm -p 8080:8080  \
     --env NODE_TWO_IP=${node_two_ip} \
     --env GITHUB_TOKEN=${github_token} \
     --env DOCKER_HUB_USER=${docker_hub_user} \
-    --env DOCKER_HUB_PASSWORD=${docker_hun_password} \
+    --env DOCKER_HUB_PASSWORD=${docker_hub_password} \
     --env JENKINS_IP=$EC2_IP \
     -v $EC2_HOME/jenkins_home:/var/jenkins_home \
     --name jenkins jenkins:wizardless
