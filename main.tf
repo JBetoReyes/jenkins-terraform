@@ -1,7 +1,10 @@
 module "vpc" {
-  source = "./modules/vpc"
-  vpc_cidr_block = var.vpc_cidr_block
-  public_subnet_cidr_block = var.public_subnet_cidr_block
+  source                         = "./modules/vpc"
+  vpc_cidr_block                 = var.vpc_cidr_block
+  public_subnet_cidr_block       = var.public_subnet_cidr_block
+  private_eks_subnets_cidr_block = var.private_eks_subnets_cidr_block
+  public_eks_subnets_cidr_block  = var.public_eks_subnets_cidr_block
+  cluster_name                   = var.cluster_name
 }
 
 module "security_group" {
