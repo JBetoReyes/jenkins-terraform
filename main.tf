@@ -29,3 +29,12 @@ module "ec2_instance" {
   docker_hub_user     = var.docker_hub_user
   docker_hub_password = var.docker_hub_password
 }
+
+module "eks_cluster" {
+  source       = "./modules/k8s"
+  aws_region   = var.aws_region
+  vpc_id       = module.vpc.vpc_id
+  cluster_name = var.cluster_name
+  subnets_ids  = module.vpc.kubernetes_private_subnet_ids
+  key_name     = var.key_name
+}
