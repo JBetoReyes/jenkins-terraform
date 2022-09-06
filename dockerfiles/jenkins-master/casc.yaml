@@ -1,0 +1,40 @@
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        # Another option passing via a file via ${readFile:/path/to/file}
+        - basicSSHUserPrivateKey:
+            scope: GLOBAL
+            id: ssh_provided_via_file
+            username: jenkins
+            description: "SSH with private key file. Private key provided"
+            privateKeySource:
+              directEntry:
+                privateKey: "${readFile:/var/jenkins_home/id_rsa}" # Path to file loaded from Environment Variable
+        - string:
+            scope: GLOBAL
+            id: "jenkins-github-integration-token"
+            secret: "${CASC_GITHUB_TOKEN}"
+            description: "Secret Text"
+        - usernamePassword:
+            scope: GLOBAL
+            id: docker-hub-integration
+            username: "${CASC_DOCKER_HUB_USER}"
+            password: "${CASC_DOCKER_HUB_PASSWORD}"
+jenkins:
+  numExecutors: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: ${CASC_JENKINS_ADMIN}
+         password: ${CASC_JENKINS_ADMIN_PASSWORD}
+unclassified:
+  location:
+    url: http://${CASC_JENKINS_IP}:8080/
+  githubpluginconfig:
+    configs:
+      - name: "Jenkins Github Integration"
+        apiUrl: "https://api.github.com"
+        credentialsId: "jenkins-github-integration-token"
+        manageHooks: true
