@@ -7,3 +7,4 @@ id_rsa
 id_rsa.pub
 .env
 *.pem
+secrets.jenkins-master.yaml
